@@ -1,0 +1,24 @@
+name: Deploy Onepiece Worker
+
+on:
+  push:
+    branches:
+      - main  # Change this to your desired branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v3
+
+      - name: Set up Wrangler
+        uses: cloudflare/wrangler-action@2
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+
+      - name: Publish to Cloudflare Workers
+        run: npx wrangler deploy
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
