@@ -11,8 +11,19 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+import { crew } from './data/crew';
+
 export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
+	async fetch(request): Promise<Response> {
+		const url = new URL(request.url);
+
+		if (url.pathname === '/crew') {
+			return Response.json(crew);
+		}
+		const data = {
+			hello: 'world',
+		};
+
+		return Response.json(data);
 	},
-} satisfies ExportedHandler<Env>;
+} satisfies ExportedHandler;
